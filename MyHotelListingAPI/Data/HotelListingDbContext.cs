@@ -4,8 +4,8 @@ namespace MyHotelListingAPI.Data
 {
     public class HotelListingDbContext : DbContext
     {
-        public HotelListingDbContext(DbContextOptions options) : base(options) 
-        {}
+        public HotelListingDbContext(DbContextOptions options) : base(options)
+        { }
 
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Country> Countries { get; set; }
@@ -16,7 +16,7 @@ namespace MyHotelListingAPI.Data
             modelBuilder.Entity<Country>().HasData(
                 new Country
                 {
-                    Id= 1,
+                    Id = 1,
                     Name = "Japan",
                     ShortName = "JP"
                 },

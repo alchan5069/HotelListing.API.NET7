@@ -19,21 +19,18 @@ namespace MyHotelListingAPI.Repository
             await _context.SaveChangesAsync();
 
             return entity;
-
         }
 
         public async Task DeleteAsync(int id)
         {
             var entity = await GetAsync(id);
             _context.Set<T>().Remove(entity);
-
         }
 
         public async Task<bool> Exists(int id)
         {
             var entity = await GetAsync(id);
             return entity != null;
-
         }
 
         public async Task<List<T>> GetAllAsync()
