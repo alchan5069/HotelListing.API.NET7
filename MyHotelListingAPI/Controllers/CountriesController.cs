@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MyHotelListingAPI.Contracts;
 using MyHotelListingAPI.Data;
 using MyHotelListingAPI.Models.Country;
-using MyHotelListingAPI.Repository;
 
 namespace MyHotelListingAPI.Controllers
 {
@@ -36,7 +35,7 @@ namespace MyHotelListingAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CountryDto>> GetCountry(int id)
         {
-            var country = await _countriesRepository.GetAsync(id);
+            var country = await _countriesRepository.GetDetails(id);
             if (country == null)
             {
                 return NotFound();
@@ -56,8 +55,6 @@ namespace MyHotelListingAPI.Controllers
             {
                 return BadRequest("Invalid Record Id.");
             }
-
-            //_context.Entry(updateCountryDto).State = EntityState.Modified;
 
             var country = await _countriesRepository.GetAsync(id);
             if (country == null)
