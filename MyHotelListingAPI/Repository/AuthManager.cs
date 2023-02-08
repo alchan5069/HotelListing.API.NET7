@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using MyHotelListingAPI.Contracts;
-using MyHotelListingAPI.Models.Users;
 using MyHotelListingAPI.Data;
+using MyHotelListingAPI.Models.Users;
 
 namespace MyHotelListingAPI.Repository
 {
@@ -15,6 +15,32 @@ namespace MyHotelListingAPI.Repository
         {
             this._mapper = mapper;
             this._userManager = userManager;
+        }
+
+        public async Task<bool> Login(LoginDto loginDto)
+        {
+            bool isValidUser = false;
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(loginDto.Email);
+                if (user is null)
+                {
+                    return default;
+                }
+
+                bool isValidCredentials = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+
+                if (!isValidCredentials)
+                {
+                    return default;
+                }
+            }
+            catch (Exception)
+            {
+                isValidUser = false;
+            }
+
+            return isValidUser;
         }
 
         public async Task<IEnumerable<IdentityError>> Register(ApiUserDto userDto)
