@@ -1,9 +1,10 @@
 ﻿using MyHotelListingAPI.Models.Users;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyHotelListingAPI.Contracts
 {
     public interface IAuthManager
     {
-        Task<bool> Register(ApiUserDto userDto);
+        Task<IEnumerable<IdentityError>> Register(ApiUserDto userDto);
     }
 }
