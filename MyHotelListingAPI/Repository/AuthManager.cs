@@ -54,7 +54,8 @@ namespace MyHotelListingAPI.Repository
 
             if (results.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "User");
+                await _userManager.AddToRoleAsync(user, "User"); // only assigns users not admins
+                // admins you will have to assign the role id to the correct user id
             }
 
             return results.Errors;
