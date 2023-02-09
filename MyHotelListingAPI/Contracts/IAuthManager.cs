@@ -7,6 +7,6 @@ namespace MyHotelListingAPI.Contracts
     {
         Task<IEnumerable<IdentityError>> Register(ApiUserDto userDto);
 
-        Task<bool> Login(LoginDto userDto);
+        Task<AuthResponseDto> Login(LoginDto userDto);
     }
 }
