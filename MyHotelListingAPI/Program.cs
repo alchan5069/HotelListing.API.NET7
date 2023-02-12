@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyHotelListingAPI.Configurations;
 using MyHotelListingAPI.Contracts;
 using MyHotelListingAPI.Data;
+using MyHotelListingAPI.Middleware;
 using MyHotelListingAPI.Repository;
 using Serilog;
 using System.Text;
@@ -79,6 +80,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSerilogRequestLogging();
 

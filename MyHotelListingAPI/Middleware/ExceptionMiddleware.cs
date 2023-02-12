@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Win32;
 using MyHotelListingAPI.Exceptions;
+using MyHotelListingAPI.Models.Users;
 using Newtonsoft.Json;
 using System.Net;
 
@@ -8,10 +10,12 @@ namespace MyHotelListingAPI.Middleware
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             this._next = next;
+            this._logger = logger;
         }
         public async Task InvokeAsync(HttpContext context) 
         {
@@ -21,6 +25,7 @@ namespace MyHotelListingAPI.Middleware
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Something went wrong while processing {context.Request.Path}");
                 await HandleExceptionAsync(context, ex);
             }
         }
