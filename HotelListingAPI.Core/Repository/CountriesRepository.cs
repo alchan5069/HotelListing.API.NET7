@@ -18,10 +18,5 @@ namespace MyHotelListingAPI.Repository
             return await _context.Countries.Include(q => q.Hotels)
                 .FirstOrDefaultAsync(q => q.Id == id);
         }
-
-        Task ICountriesRepository.GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

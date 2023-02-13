@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
+using HotelListingAPI.Core.Contracts;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using MyHotelListingAPI.Contracts;
 using MyHotelListingAPI.Data;
 using MyHotelListingAPI.Models.Users;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MyHotelListingAPI.Repository
+namespace HotelListingAPI.Core.Repository
 {
     public class AuthManager : IAuthManager
     {
@@ -99,7 +99,7 @@ namespace MyHotelListingAPI.Repository
                 .FirstOrDefault(q => q.Type == JwtRegisteredClaimNames.Email)?.Value;
 
             _user = await _userManager.FindByNameAsync(userName);
-            if(_user == null || _user.Id != request.UserId)
+            if (_user == null || _user.Id != request.UserId)
             {
                 return null;
             }

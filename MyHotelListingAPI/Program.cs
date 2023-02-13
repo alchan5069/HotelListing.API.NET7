@@ -1,3 +1,5 @@
+using HotelListingAPI.Core.Contracts;
+using HotelListingAPI.Core.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Versioning;

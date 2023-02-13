@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyHotelListingAPI.Contracts;
+﻿using HotelListingAPI.Core.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using MyHotelListingAPI.Models.Users;
 
 namespace MyHotelListingAPI.Controllers
@@ -42,13 +42,11 @@ namespace MyHotelListingAPI.Controllers
 
                 return Ok();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Something went wrong in the {nameof(Register)} - User Registration attempt for {apiUserDto.Email}");
                 return Problem($"Something went wrong in the {nameof(Register)}. Please contact support.", statusCode: 500);
             }
-
-
         }
 
         // POST: api/Account/login
@@ -61,7 +59,7 @@ namespace MyHotelListingAPI.Controllers
         {
             var authResponse = await _authManager.Login(loginDto);
 
-            if (authResponse == null) 
+            if (authResponse == null)
             {
                 return Unauthorized();
             }

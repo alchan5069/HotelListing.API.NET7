@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Win32;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using MyHotelListingAPI.Exceptions;
-using MyHotelListingAPI.Models.Users;
 using Newtonsoft.Json;
 using System.Net;
 
@@ -17,7 +16,8 @@ namespace MyHotelListingAPI.Middleware
             this._next = next;
             this._logger = logger;
         }
-        public async Task InvokeAsync(HttpContext context) 
+
+        public async Task InvokeAsync(HttpContext context)
         {
             try
             {
@@ -40,12 +40,13 @@ namespace MyHotelListingAPI.Middleware
                 ErrorMessage = ex.Message
             };
 
-            switch(ex)
+            switch (ex)
             {
                 case NotFoundException notFoundException:
                     statusCode = HttpStatusCode.NotFound;
                     errorDetails.ErrorType = "Not Found";
                     break;
+
                 default:
                     break;
             }
@@ -54,7 +55,6 @@ namespace MyHotelListingAPI.Middleware
             context.Response.StatusCode = (int)statusCode;
 
             return context.Response.WriteAsync(response);
-
         }
 
         public class ErrorDetails
