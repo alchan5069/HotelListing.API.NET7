@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using MyHotelListingAPI.Contracts;
 using MyHotelListingAPI.Data;
+using MyHotelListingAPI.Exceptions;
+using MyHotelListingAPI.Models.Country;
 
 namespace MyHotelListingAPI.Repository
 {
@@ -13,10 +16,18 @@ namespace MyHotelListingAPI.Repository
             this._context = context;
         }
 
-        public async Task<Country> GetDetails(int id)
+        public async Task<CountryDto> GetDetails(int id)
         {
-            return await _context.Countries.Include(q => q.Hotels)
+            var country = await _context.Countries.Include(q => q.Hotels)
+                .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(q => q.Id == id);
+
+            if (country == null)
+            {
+                throw new NotFoundException(nameof(GetDetails), id);
+            }
+
+            return country;
         }
     }
 }

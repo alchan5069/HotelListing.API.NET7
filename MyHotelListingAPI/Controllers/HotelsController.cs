@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HotelListingAPI.Core.Models.Hotel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +14,11 @@ namespace MyHotelListingAPI.Controllers
     [Authorize]
     public class HotelsController : ControllerBase
     {
-        //private readonly HotelListingDbContext _context;
         private readonly IHotelsRepository _hotelsRepository;
         private readonly IMapper _mapper;
 
         public HotelsController(IHotelsRepository hotelsRepository, IMapper mapper)
         {
-           // _context = context;
             this._hotelsRepository = hotelsRepository;
             this._mapper = mapper;
         }
@@ -86,25 +85,17 @@ namespace MyHotelListingAPI.Controllers
         // POST: api/Hotels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Hotel>> PostHotel(CreateHotelDto hotelDto)
+        public async Task<ActionResult<Hotel>> PostHotel(CreateHotelDto createHotelDto)
         {
-            var hotel = _mapper.Map<Hotel> (hotelDto);
+            var hotel = await _hotelsRepository.AddAsync<CreateHotelDto, GetHotelDto>(createHotelDto);
 
-            await _hotelsRepository.AddAsync(hotel);
-
-            return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
+            return CreatedAtAction(nameof(GetHotel), new { id = hotel.Id }, hotel);
         }
 
         // DELETE: api/Hotels/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel(int id)
         {
-            var hotel = await _hotelsRepository.GetAsync(id);
-            if (hotel == null)
-            {
-                return NotFound();
-            }
-
             await _hotelsRepository.DeleteAsync(id);
 
             return NoContent();
