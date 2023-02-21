@@ -25,6 +25,9 @@ namespace MyHotelListingAPI.Controllers
 
         // GET: api/Hotels
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<HotelDto>>> GetHotels()
         {
             var hotels = await _hotelsRepository.GetAllAsync<HotelDto>();
@@ -33,6 +36,9 @@ namespace MyHotelListingAPI.Controllers
 
         // GET: api/Hotels/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<HotelDto>> GetHotel(int id)
         {
             var hotel = await _hotelsRepository.GetAsync(id);
@@ -48,24 +54,19 @@ namespace MyHotelListingAPI.Controllers
         // PUT: api/Hotels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHotel(int id, HotelDto hotelDto)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> PutHotel(int id, UpdateHotelDto updateHotelDto)
         {
-            if (id != hotelDto.Id)
+            if (id != updateHotelDto.Id)
             {
-                return BadRequest();
+                return BadRequest("Invalid Hotel Id.");
             }
-
-            var hotel = await _hotelsRepository.GetAsync(id);
-            if (hotel == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map<HotelDto>(hotel);
 
             try
             {
-                await _hotelsRepository.UpdateAsync(hotel);
+                await _hotelsRepository.UpdateAsync(id, updateHotelDto);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -85,6 +86,9 @@ namespace MyHotelListingAPI.Controllers
         // POST: api/Hotels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Hotel>> PostHotel(CreateHotelDto createHotelDto)
         {
             var hotel = await _hotelsRepository.AddAsync<CreateHotelDto, GetHotelDto>(createHotelDto);
@@ -94,6 +98,9 @@ namespace MyHotelListingAPI.Controllers
 
         // DELETE: api/Hotels/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteHotel(int id)
         {
             await _hotelsRepository.DeleteAsync(id);
