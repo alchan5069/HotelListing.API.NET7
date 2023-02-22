@@ -12,7 +12,7 @@ namespace MyHotelListingAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class HotelsController : ControllerBase
+    public class HotelsController : Controller
     {
         private readonly IHotelsRepository _hotelsRepository;
         private readonly IMapper _mapper;
