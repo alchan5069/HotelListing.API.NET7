@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using HotelListingAPI.Test.Fakes;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using MyHotelListingAPI.Controllers;
@@ -71,6 +72,8 @@ namespace HotelListingAPI.Test.Controllers
         [Test]
         public void Test_PostAsync_HotelController_Should_Return_200Ok()
         {
+            var newHotel = new HotelFaker().Generate();
+
             Assert.Pass();
         }
 
