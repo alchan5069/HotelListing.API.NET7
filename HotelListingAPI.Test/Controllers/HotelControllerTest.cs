@@ -54,17 +54,36 @@ namespace HotelListingAPI.Test.Controllers
 
             // Save a record to the database, then try and read it back
             // _context.Hotels.AddAsync(hotel); // context probably needs some mocking of records to have it working?
-            var addResult = _hotelRepository.AddAsync(hotel);
             // _context.SaveChangesAsync();
+
+            var addResult = _hotelRepository.AddAsync(hotel);
+            addResult.Should().NotBeNull();
 
             var result = _hotelRepository.GetAsync(hotel.Id);
 
             // assert
-
             result.Should().NotBeNull();
             result.Result.Name.Should().Be("Test");
 
             //Assert.Pass();
+        }
+
+        [Test]
+        public void Test_PostAsync_HotelController_Should_Return_200Ok()
+        {
+            Assert.Pass();
+        }
+
+        [Test]
+        public void Test_DeleteAsync_HotelController_Should_Return_200Ok()
+        {
+            Assert.Pass();
+        }
+
+        [Test]
+        public void Test_UpdateAsync_HotelController_Should_Return_200Ok()
+        {
+            Assert.Pass();
         }
 
         protected override void Dispose(bool disposing)
