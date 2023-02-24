@@ -72,9 +72,18 @@ namespace HotelListingAPI.Test.Controllers
         [Test]
         public void Test_PostAsync_HotelController_Should_Return_200Ok()
         {
+            // arrange
             var newHotel = new HotelFaker().Generate();
 
-            Assert.Pass();
+            // act
+            var result = _hotelRepository.AddAsync(newHotel);
+
+            // assert
+            result.Should().NotBeNull();
+
+            result.Result.Id.Should().NotBe(null);
+
+           // Assert.Pass();
         }
 
         [Test]
